@@ -1,0 +1,30 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "clusterLocation": {
+            "value": "West EU"
+        },
+        "clusterName": {
+            "value": "ChatServer"
+        },
+        "computeLocation": {
+            "value": "West EU"
+        },
+        "adminUserName": {
+            "value": ""
+        },
+        "adminPassword": {
+            "value": ""
+        },
+        "dnsName": {
+            "value": "ChatServer"
+        },
+        "vmNodeType0Name": {
+            "value": "prod"
+        },
+        "vmNodeType0Size": {
+            "value": "Standard_D1_v2"
+        }
+   }
+}
