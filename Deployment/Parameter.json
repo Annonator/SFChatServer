@@ -3,28 +3,36 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
         "clusterLocation": {
-            "value": "West EU"
+            "value": "westeurope"
         },
         "clusterName": {
             "value": "ChatServer"
         },
         "computeLocation": {
-            "value": "West EU"
+            "value": "westeurope"
         },
         "adminUserName": {
             "value": ""
         },
         "adminPassword": {
-            "value": ""
+            "reference": {
+               "keyVault": {
+                  "id": "/subscriptions/{subscription}/resourceGroups/{resourcegroup}/providers/Microsoft.KeyVault/vaults/{keyvault}"
+               }, 
+               "secretName": "password" 
+            }
         },
         "dnsName": {
-            "value": "ChatServer"
+            "value": ""
         },
         "vmNodeType0Name": {
             "value": "prod"
         },
         "vmNodeType0Size": {
             "value": "Standard_D1_v2"
+        },
+        "vmStorageAccountName": {
+            "value": "sotrage"
         }
    }
 }
