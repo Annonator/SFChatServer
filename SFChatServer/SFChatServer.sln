@@ -1,0 +1,36 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{A07B5EB6-E848-4116-A8D0-A826331D98C6}") = "SFChatServer", "SFChatServer\SFChatServer.sfproj", "{ED37849C-503B-423C-AADA-8372E3682AD0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatService", "ChatService\ChatService.csproj", "{70773E2E-90C6-4E96-B29F-824386E318CD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gateway", "Gateway\Gateway.csproj", "{7487D1E1-6E82-4C27-9509-75AFAE4D66FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ED37849C-503B-423C-AADA-8372E3682AD0}.Debug|x64.ActiveCfg = Debug|x64
+		{ED37849C-503B-423C-AADA-8372E3682AD0}.Debug|x64.Build.0 = Debug|x64
+		{ED37849C-503B-423C-AADA-8372E3682AD0}.Debug|x64.Deploy.0 = Debug|x64
+		{ED37849C-503B-423C-AADA-8372E3682AD0}.Release|x64.ActiveCfg = Release|x64
+		{ED37849C-503B-423C-AADA-8372E3682AD0}.Release|x64.Build.0 = Release|x64
+		{ED37849C-503B-423C-AADA-8372E3682AD0}.Release|x64.Deploy.0 = Release|x64
+		{70773E2E-90C6-4E96-B29F-824386E318CD}.Debug|x64.ActiveCfg = Debug|x64
+		{70773E2E-90C6-4E96-B29F-824386E318CD}.Debug|x64.Build.0 = Debug|x64
+		{70773E2E-90C6-4E96-B29F-824386E318CD}.Release|x64.ActiveCfg = Release|x64
+		{70773E2E-90C6-4E96-B29F-824386E318CD}.Release|x64.Build.0 = Release|x64
+		{7487D1E1-6E82-4C27-9509-75AFAE4D66FA}.Debug|x64.ActiveCfg = Debug|x64
+		{7487D1E1-6E82-4C27-9509-75AFAE4D66FA}.Debug|x64.Build.0 = Debug|x64
+		{7487D1E1-6E82-4C27-9509-75AFAE4D66FA}.Release|x64.ActiveCfg = Release|x64
+		{7487D1E1-6E82-4C27-9509-75AFAE4D66FA}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
