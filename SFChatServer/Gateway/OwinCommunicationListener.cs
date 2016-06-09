@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Fabric;
 using System.Globalization;
 using System.Threading;
@@ -12,22 +11,24 @@ namespace Gateway
 {
     internal class OwinCommunicationListener : ICommunicationListener
     {
-        private readonly ServiceEventSource eventSource;
-        private readonly Action<IAppBuilder> startup;
-        private readonly ServiceContext serviceContext;
-        private readonly string endpointName;
         private readonly string appRoot;
+        private readonly string endpointName;
+        private readonly ServiceEventSource eventSource;
+        private readonly ServiceContext serviceContext;
+        private readonly Action<IAppBuilder> startup;
+        private string listeningAddress;
+        private string publishAddress;
 
         private IDisposable webApp;
-        private string publishAddress;
-        private string listeningAddress;
 
-        public OwinCommunicationListener(Action<IAppBuilder> startup, ServiceContext serviceContext, ServiceEventSource eventSource, string endpointName)
+        public OwinCommunicationListener(Action<IAppBuilder> startup, ServiceContext serviceContext,
+            ServiceEventSource eventSource, string endpointName)
             : this(startup, serviceContext, eventSource, endpointName, null)
         {
         }
 
-        public OwinCommunicationListener(Action<IAppBuilder> startup, ServiceContext serviceContext, ServiceEventSource eventSource, string endpointName, string appRoot)
+        public OwinCommunicationListener(Action<IAppBuilder> startup, ServiceContext serviceContext,
+            ServiceEventSource eventSource, string endpointName, string appRoot)
         {
             if (startup == null)
             {
@@ -60,56 +61,56 @@ namespace Gateway
 
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
-            var serviceEndpoint = this.serviceContext.CodePackageActivationContext.GetEndpoint(this.endpointName);
-            int port = serviceEndpoint.Port;
+            var serviceEndpoint = serviceContext.CodePackageActivationContext.GetEndpoint(endpointName);
+            var port = serviceEndpoint.Port;
 
-            if (this.serviceContext is StatefulServiceContext)
+            if (serviceContext is StatefulServiceContext)
             {
-                StatefulServiceContext statefulServiceContext = this.serviceContext as StatefulServiceContext;
+                var statefulServiceContext = serviceContext as StatefulServiceContext;
 
-                this.listeningAddress = string.Format(
+                listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
                     "http://+:{0}/{1}{2}/{3}/{4}",
                     port,
-                    string.IsNullOrWhiteSpace(this.appRoot)
+                    string.IsNullOrWhiteSpace(appRoot)
                         ? string.Empty
-                        : this.appRoot.TrimEnd('/') + '/',
+                        : appRoot.TrimEnd('/') + '/',
                     statefulServiceContext.PartitionId,
                     statefulServiceContext.ReplicaId,
                     Guid.NewGuid());
             }
-            else if (this.serviceContext is StatelessServiceContext)
+            else if (serviceContext is StatelessServiceContext)
             {
-                this.listeningAddress = string.Format(
+                listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
                     "http://+:{0}/{1}",
                     port,
-                    string.IsNullOrWhiteSpace(this.appRoot)
+                    string.IsNullOrWhiteSpace(appRoot)
                         ? string.Empty
-                        : this.appRoot.TrimEnd('/') + '/');
+                        : appRoot.TrimEnd('/') + '/');
             }
             else
             {
                 throw new InvalidOperationException();
             }
 
-            this.publishAddress = this.listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
+            publishAddress = listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
 
             try
             {
-                this.eventSource.ServiceMessage(this.serviceContext, "Starting web server on " + this.listeningAddress);
+                eventSource.ServiceMessage(serviceContext, "Starting web server on " + listeningAddress);
 
-                this.webApp = WebApp.Start(this.listeningAddress, appBuilder => this.startup.Invoke(appBuilder));
+                webApp = WebApp.Start(listeningAddress, appBuilder => startup.Invoke(appBuilder));
 
-                this.eventSource.ServiceMessage(this.serviceContext, "Listening on " + this.publishAddress);
+                eventSource.ServiceMessage(serviceContext, "Listening on " + publishAddress);
 
-                return Task.FromResult(this.publishAddress);
+                return Task.FromResult(publishAddress);
             }
             catch (Exception ex)
             {
-                this.eventSource.ServiceMessage(this.serviceContext, "Web server failed to open. " + ex.ToString());
+                eventSource.ServiceMessage(serviceContext, "Web server failed to open. " + ex);
 
-                this.StopWebServer();
+                StopWebServer();
 
                 throw;
             }
@@ -117,27 +118,27 @@ namespace Gateway
 
         public Task CloseAsync(CancellationToken cancellationToken)
         {
-            this.eventSource.ServiceMessage(this.serviceContext, "Closing web server");
+            eventSource.ServiceMessage(serviceContext, "Closing web server");
 
-            this.StopWebServer();
+            StopWebServer();
 
             return Task.FromResult(true);
         }
 
         public void Abort()
         {
-            this.eventSource.ServiceMessage(this.serviceContext, "Aborting web server");
+            eventSource.ServiceMessage(serviceContext, "Aborting web server");
 
-            this.StopWebServer();
+            StopWebServer();
         }
 
         private void StopWebServer()
         {
-            if (this.webApp != null)
+            if (webApp != null)
             {
                 try
                 {
-                    this.webApp.Dispose();
+                    webApp.Dispose();
                 }
                 catch (ObjectDisposedException)
                 {
