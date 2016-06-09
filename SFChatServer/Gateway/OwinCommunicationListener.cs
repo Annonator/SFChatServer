@@ -61,56 +61,56 @@ namespace Gateway
 
         public Task<string> OpenAsync(CancellationToken cancellationToken)
         {
-            var serviceEndpoint = serviceContext.CodePackageActivationContext.GetEndpoint(endpointName);
+            var serviceEndpoint = this.serviceContext.CodePackageActivationContext.GetEndpoint(this.endpointName);
             var port = serviceEndpoint.Port;
 
-            if (serviceContext is StatefulServiceContext)
+            if (this.serviceContext is StatefulServiceContext)
             {
-                var statefulServiceContext = serviceContext as StatefulServiceContext;
+                var statefulServiceContext = this.serviceContext as StatefulServiceContext;
 
-                listeningAddress = string.Format(
+                this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
                     "http://+:{0}/{1}{2}/{3}/{4}",
                     port,
-                    string.IsNullOrWhiteSpace(appRoot)
+                    string.IsNullOrWhiteSpace(this.appRoot)
                         ? string.Empty
-                        : appRoot.TrimEnd('/') + '/',
+                        : this.appRoot.TrimEnd('/') + '/',
                     statefulServiceContext.PartitionId,
                     statefulServiceContext.ReplicaId,
                     Guid.NewGuid());
             }
-            else if (serviceContext is StatelessServiceContext)
+            else if (this.serviceContext is StatelessServiceContext)
             {
-                listeningAddress = string.Format(
+                this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
                     "http://+:{0}/{1}",
                     port,
-                    string.IsNullOrWhiteSpace(appRoot)
+                    string.IsNullOrWhiteSpace(this.appRoot)
                         ? string.Empty
-                        : appRoot.TrimEnd('/') + '/');
+                        : this.appRoot.TrimEnd('/') + '/');
             }
             else
             {
                 throw new InvalidOperationException();
             }
 
-            publishAddress = listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
+            this.publishAddress = this.listeningAddress.Replace("+", FabricRuntime.GetNodeContext().IPAddressOrFQDN);
 
             try
             {
-                eventSource.ServiceMessage(serviceContext, "Starting web server on " + listeningAddress);
+                this.eventSource.ServiceMessage(this.serviceContext, "Starting web server on " + this.listeningAddress);
 
-                webApp = WebApp.Start(listeningAddress, appBuilder => startup.Invoke(appBuilder));
+                this.webApp = WebApp.Start(this.listeningAddress, appBuilder => this.startup.Invoke(appBuilder));
 
-                eventSource.ServiceMessage(serviceContext, "Listening on " + publishAddress);
+                this.eventSource.ServiceMessage(this.serviceContext, "Listening on " + this.publishAddress);
 
-                return Task.FromResult(publishAddress);
+                return Task.FromResult(this.publishAddress);
             }
             catch (Exception ex)
             {
-                eventSource.ServiceMessage(serviceContext, "Web server failed to open. " + ex);
+                this.eventSource.ServiceMessage(this.serviceContext, "Web server failed to open. " + ex);
 
-                StopWebServer();
+                this.StopWebServer();
 
                 throw;
             }
@@ -118,27 +118,27 @@ namespace Gateway
 
         public Task CloseAsync(CancellationToken cancellationToken)
         {
-            eventSource.ServiceMessage(serviceContext, "Closing web server");
+            this.eventSource.ServiceMessage(this.serviceContext, "Closing web server");
 
-            StopWebServer();
+            this.StopWebServer();
 
             return Task.FromResult(true);
         }
 
         public void Abort()
         {
-            eventSource.ServiceMessage(serviceContext, "Aborting web server");
+            this.eventSource.ServiceMessage(this.serviceContext, "Aborting web server");
 
-            StopWebServer();
+            this.StopWebServer();
         }
 
         private void StopWebServer()
         {
-            if (webApp != null)
+            if (this.webApp != null)
             {
                 try
                 {
-                    webApp.Dispose();
+                    this.webApp.Dispose();
                 }
                 catch (ObjectDisposedException)
                 {

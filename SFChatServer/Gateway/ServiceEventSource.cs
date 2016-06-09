@@ -48,10 +48,10 @@ namespace Gateway
         [NonEvent]
         public void Message(string message, params object[] args)
         {
-            if (IsEnabled())
+            if (this.IsEnabled())
             {
                 var finalMessage = string.Format(message, args);
-                Message(finalMessage);
+                this.Message(finalMessage);
             }
         }
 
@@ -60,19 +60,19 @@ namespace Gateway
         [Event(MessageEventId, Level = EventLevel.Informational, Message = "{0}")]
         public void Message(string message)
         {
-            if (IsEnabled())
+            if (this.IsEnabled())
             {
-                WriteEvent(MessageEventId, message);
+                this.WriteEvent(MessageEventId, message);
             }
         }
 
         [NonEvent]
         public void ServiceMessage(ServiceContext serviceContext, string message, params object[] args)
         {
-            if (IsEnabled())
+            if (this.IsEnabled())
             {
                 var finalMessage = string.Format(message, args);
-                ServiceMessage(
+                this.ServiceMessage(
                     serviceContext.ServiceName.ToString(),
                     serviceContext.ServiceTypeName,
                     GetReplicaOrInstanceId(serviceContext),
@@ -105,7 +105,7 @@ namespace Gateway
             string message)
         {
 #if !UNSAFE
-            WriteEvent(ServiceMessageEventId, serviceName, serviceTypeName, replicaOrInstanceId, partitionId,
+            this.WriteEvent(ServiceMessageEventId, serviceName, serviceTypeName, replicaOrInstanceId, partitionId,
                 applicationName, applicationTypeName, nodeName, message);
 #else
             const int numArgs = 8;
@@ -133,7 +133,7 @@ namespace Gateway
         ]
         public void ServiceTypeRegistered(int hostProcessId, string serviceType)
         {
-            WriteEvent(ServiceTypeRegisteredEventId, hostProcessId, serviceType);
+            this.WriteEvent(ServiceTypeRegisteredEventId, hostProcessId, serviceType);
         }
 
         private const int ServiceHostInitializationFailedEventId = 4;
@@ -142,7 +142,7 @@ namespace Gateway
             Message = "Service host initialization failed", Keywords = Keywords.ServiceInitialization)]
         public void ServiceHostInitializationFailed(string exception)
         {
-            WriteEvent(ServiceHostInitializationFailedEventId, exception);
+            this.WriteEvent(ServiceHostInitializationFailedEventId, exception);
         }
 
         // A pair of events sharing the same name prefix with a "Start"/"Stop" suffix implicitly marks boundaries of an event tracing activity.
@@ -154,7 +154,7 @@ namespace Gateway
             Keywords = Keywords.Requests)]
         public void ServiceRequestStart(string requestTypeName)
         {
-            WriteEvent(ServiceRequestStartEventId, requestTypeName);
+            this.WriteEvent(ServiceRequestStartEventId, requestTypeName);
         }
 
         private const int ServiceRequestStopEventId = 6;
@@ -163,7 +163,7 @@ namespace Gateway
             Keywords = Keywords.Requests)]
         public void ServiceRequestStop(string requestTypeName)
         {
-            WriteEvent(ServiceRequestStopEventId, requestTypeName);
+            this.WriteEvent(ServiceRequestStopEventId, requestTypeName);
         }
 
         private const int ServiceRequestFailedEventId = 7;
@@ -172,7 +172,7 @@ namespace Gateway
             Keywords = Keywords.Requests)]
         public void ServiceRequestFailed(string requestTypeName, string exception)
         {
-            WriteEvent(ServiceRequestFailedEventId, exception);
+            this.WriteEvent(ServiceRequestFailedEventId, exception);
         }
 
         #endregion
