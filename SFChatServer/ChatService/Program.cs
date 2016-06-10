@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Utility;
 
 namespace ChatService
 {
@@ -19,7 +20,7 @@ namespace ChatService
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("ChatServiceType",
+                ServiceRuntime.RegisterServiceAsync(FabricConfig.ChatServiceType,
                     context => new ChatService(context)).GetAwaiter().GetResult();
 
                 ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id,

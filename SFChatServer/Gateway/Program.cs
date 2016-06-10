@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Threading;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Utility;
 
 namespace Gateway
 {
@@ -19,7 +20,7 @@ namespace Gateway
                 // When Service Fabric creates an instance of this service type,
                 // an instance of the class is created in this host process.
 
-                ServiceRuntime.RegisterServiceAsync("GatewayType",
+                ServiceRuntime.RegisterServiceAsync(FabricConfig.GatewayServiceType,
                     context => new Gateway(context)).GetAwaiter().GetResult();
 
                 ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(Gateway).Name);
