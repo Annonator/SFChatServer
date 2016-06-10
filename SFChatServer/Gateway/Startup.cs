@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using Owin;
+using Swashbuckle.Application;
 
 namespace Gateway
 {
@@ -17,6 +18,8 @@ namespace Gateway
                 "api/{controller}/{id}",
                 new {id = RouteParameter.Optional}
                 );
+
+            config.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API")).EnableSwaggerUi();
 
             appBuilder.UseWebApi(config);
         }
