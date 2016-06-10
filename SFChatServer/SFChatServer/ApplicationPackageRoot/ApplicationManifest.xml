@@ -7,9 +7,6 @@
       <Parameter Name="ChatService_TargetReplicaSetSize" DefaultValue="3" />
    </Parameters>
    <ServiceManifestImport>
-     <ServiceManifestRef ServiceManifestName="UserActorPkg" ServiceManifestVersion="1.0.0" />
-   </ServiceManifestImport>
-   <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="GatewayPkg" ServiceManifestVersion="1.0.0" />
       <ConfigOverrides />
    </ServiceManifestImport>
