@@ -5,7 +5,13 @@
       <Parameter Name="ChatService_MinReplicaSetSize" DefaultValue="2" />
       <Parameter Name="ChatService_PartitionCount" DefaultValue="1" />
       <Parameter Name="ChatService_TargetReplicaSetSize" DefaultValue="3" />
+      <Parameter Name="ActorBackendActorService_PartitionCount" DefaultValue="10" />
+      <Parameter Name="ActorBackendActorService_MinReplicaSetSize" DefaultValue="2" />
+      <Parameter Name="ActorBackendActorService_TargetReplicaSetSize" DefaultValue="3" />
    </Parameters>
+   <ServiceManifestImport>
+      <ServiceManifestRef ServiceManifestName="ActorBackendPkg" ServiceManifestVersion="1.0.0" />
+   </ServiceManifestImport>
    <ServiceManifestImport>
       <ServiceManifestRef ServiceManifestName="GatewayPkg" ServiceManifestVersion="1.0.0" />
       <ConfigOverrides />
@@ -23,6 +29,11 @@
       <Service Name="ChatService">
          <StatefulService ServiceTypeName="ChatServiceType" TargetReplicaSetSize="[ChatService_TargetReplicaSetSize]" MinReplicaSetSize="[ChatService_MinReplicaSetSize]">
             <UniformInt64Partition PartitionCount="[ChatService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
+         </StatefulService>
+      </Service>
+      <Service Name="ActorBackendActorService" GeneratedIdRef="fed9e2ba-e57f-4445-b51c-c12ce8f008a3|Persisted">
+         <StatefulService ServiceTypeName="ActorBackendActorServiceType" TargetReplicaSetSize="[ActorBackendActorService_TargetReplicaSetSize]" MinReplicaSetSize="[ActorBackendActorService_MinReplicaSetSize]">
+            <UniformInt64Partition PartitionCount="[ActorBackendActorService_PartitionCount]" LowKey="-9223372036854775808" HighKey="9223372036854775807" />
          </StatefulService>
       </Service>
    </DefaultServices>

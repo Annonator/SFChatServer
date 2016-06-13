@@ -4,8 +4,14 @@
     {
         public static readonly string ServiceUri = "fabric:/ChatServer";
 
-        public static readonly string GatewayServiceType = "Gateway";
+        /// <summary>
+        ///     Service Name has to match the name in the ServiceManifest.xml
+        /// </summary>
+        public static readonly string GatewayServiceType = "GatewayType";
 
-        public static readonly string ChatServiceType = "ChatService";
+        /// <summary>
+        ///     Service Name has to match the name in the ServiceManifest.xml
+        /// </summary>
+        public static readonly string ChatServiceType = "ChatServiceType";
     }
 }
