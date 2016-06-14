@@ -2,7 +2,7 @@
 {
     public class FabricConfig
     {
-        public static readonly string ServiceUri = "fabric:/ChatServer";
+        public static readonly string ServiceUri = "fabric:/SFChatServer";
 
         /// <summary>
         ///     Service Name has to match the name in the ServiceManifest.xml
