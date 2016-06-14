@@ -17,7 +17,7 @@ namespace ActorBackend.Actors
         /// <returns>A <see cref="T:System.Threading.Tasks.Task">Task</see> that represents outstanding OnActivateAsync operation.</returns>
         protected override Task OnActivateAsync()
         {
-            this.StateManager.TryAddStateAsync(UserState, new User {Name = "NASE"});
+            this.StateManager.TryAddStateAsync(UserState, new User {Name = null});
 
             return base.OnActivateAsync();
         }
