@@ -26,7 +26,7 @@ namespace Gateway.Controllers
         {
             var proxy = ActorProxy.Create<IUserActor>(new ActorId(1), FabricConfig.ServiceUri);
 
-            return proxy.GetName().Result;
+            return proxy.GetName().Result.ToString();
         }
     }
 }
