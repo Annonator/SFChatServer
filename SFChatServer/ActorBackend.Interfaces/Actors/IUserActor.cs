@@ -1,8 +1,11 @@
-﻿using Microsoft.ServiceFabric.Actors;
+﻿using System.Threading.Tasks;
+using Microsoft.ServiceFabric.Actors;
 
 namespace ActorBackend.Interfaces.Actors
 {
-    internal interface IUserActor : IActor
+    public interface IUserActor : IActor
     {
+        Task SetName(string name);
+        Task<string> GetName();
     }
 }

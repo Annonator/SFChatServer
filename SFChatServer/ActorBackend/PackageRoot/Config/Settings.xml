@@ -7,4 +7,11 @@
    <Section Name="ActorBackendActorServiceReplicatorSecurityConfig">
       <Parameter Name="CredentialType" Value="None" />
    </Section>
+   <Section Name="UserActorServiceReplicatorConfig">
+      <Parameter Name="ReplicatorEndpoint" Value="UserActorServiceReplicatorEndpoint" />
+      <Parameter Name="BatchAcknowledgementInterval" Value="0.005" />
+   </Section>
+   <Section Name="UserActorServiceReplicatorSecurityConfig">
+      <Parameter Name="CredentialType" Value="None" />
+   </Section>
 </Settings>

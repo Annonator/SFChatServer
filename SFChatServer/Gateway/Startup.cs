@@ -15,8 +15,8 @@ namespace Gateway
 
             config.Routes.MapHttpRoute(
                 "DefaultApi",
-                "api/{controller}/{id}",
-                new {id = RouteParameter.Optional}
+                "api/{controller}/{action}",
+                new {}
                 );
 
             config.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API")).EnableSwaggerUi();

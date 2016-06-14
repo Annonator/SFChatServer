@@ -73,8 +73,9 @@
     <Reference Include="System.Runtime.Serialization" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Actors\UserActor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ActorBackend.cs" />
+    <Compile Include="Actors\ActorBackend.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ActorEventSource.cs" />
   </ItemGroup>

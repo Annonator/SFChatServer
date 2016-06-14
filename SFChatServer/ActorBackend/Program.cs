@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Fabric;
 using System.Threading;
-using System.Threading.Tasks;
+using ActorBackend.Actors;
 using Microsoft.ServiceFabric.Actors.Runtime;
 
 namespace ActorBackend
@@ -10,7 +8,7 @@ namespace ActorBackend
     internal static class Program
     {
         /// <summary>
-        /// This is the entry point of the service host process.
+        ///     This is the entry point of the service host process.
         /// </summary>
         private static void Main()
         {
@@ -21,8 +19,15 @@ namespace ActorBackend
                 // are automatically populated when you build this project.
                 // For more information, see http://aka.ms/servicefabricactorsplatform
 
-                ActorRuntime.RegisterActorAsync<ActorBackend>(
-                   (context, actorType) => new ActorService(context, actorType, () => new ActorBackend())).GetAwaiter().GetResult();
+                ActorRuntime.RegisterActorAsync<Actors.ActorBackend>(
+                    (context, actorType) => new ActorService(context, actorType, () => new Actors.ActorBackend()))
+                    .GetAwaiter()
+                    .GetResult();
+
+                ActorRuntime.RegisterActorAsync<UserActor>(
+                    (context, actorType) => new ActorService(context, actorType, () => new UserActor()))
+                    .GetAwaiter()
+                    .GetResult();
 
                 Thread.Sleep(Timeout.Infinite);
             }
