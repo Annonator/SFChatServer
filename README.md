@@ -33,7 +33,13 @@ $secretvalue = ConvertTo-SecureString '<PASSWORD>' -AsPlainText -Force
 $secret = Set-AzureKeyVaultSecret -VaultName '<KeyVaultName>' -Name '<passwordName>' -SecretValue $secretvalue
 ```
 
+Now we need to Enable the KeyVault for Deployment. 
+```powershell
+Set-AzureRmKeyVaultAccessPolicy -EnabledForDeployment -EnabledForTemplateDeployment -ResourceGroupName <ResourceGroupName>
+```
+
 Deploy the Service Fabric Chat Cluster
 ```powershell
 New-AzureRmResourceGroupDeployment -ResourceGroupName <ResourceGroupNameForCluster> -TemplateFile https://raw.githubusercontent.com/Annonator/SFChatServer/master/Deployment/ServiceFabricClusterTemplate.json -TemplateParameterFile "<LocalPathTo>\Parameter.json"
 ```
+
