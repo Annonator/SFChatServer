@@ -1,3 +1,5 @@
+Build Status: ![alt text](https://anpohl.visualstudio.com/_apis/public/build/definitions/a783ad3e-63dc-4fea-b0fd-79f07db8d534/1/badge "Build Status")
+
 # SFChatServer
 Chat Server Based on Service Fabric
 
