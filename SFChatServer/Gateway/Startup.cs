@@ -1,4 +1,6 @@
 ﻿using System.Web.Http;
+using Microsoft.AspNet.SignalR;
+using Microsoft.Owin.Cors;
 using Owin;
 using Swashbuckle.Application;
 
@@ -22,6 +24,13 @@ namespace Gateway
             config.EnableSwagger(c => c.SingleApiVersion("v1", "A title for your API")).EnableSwaggerUi();
 
             appBuilder.UseWebApi(config);
+
+            //appBuilder.UseOAuthBearerAuthentication(appBuilder)
+            //appBuilder.UseOAuthAuthorizationServer(this);
+
+            appBuilder.UseCors(CorsOptions.AllowAll);
+            var configR = new HubConfiguration {EnableDetailedErrors = true};
+            appBuilder.MapSignalR(configR);
         }
     }
 }

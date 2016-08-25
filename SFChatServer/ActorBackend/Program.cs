@@ -29,6 +29,11 @@ namespace ActorBackend
                     .GetAwaiter()
                     .GetResult();
 
+                ActorRuntime.RegisterActorAsync<RoomActor>(
+                    (context, actorType) => new ActorService(context, actorType, () => new RoomActor()))
+                    .GetAwaiter()
+                    .GetResult();
+
                 Thread.Sleep(Timeout.Infinite);
             }
             catch (Exception e)
