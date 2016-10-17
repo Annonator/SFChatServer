@@ -17,7 +17,7 @@
         "adminPassword": {
             "reference": {
                "keyVault": {
-                  "id": "/subscriptions/{subscription}/resourceGroups/{resourcegroup}/providers/Microsoft.KeyVault/vaults/{keyvault}"
+                  "id": "/subscriptions/{subscriptionTEST}/resourceGroups/{resourcegroup}/providers/Microsoft.KeyVault/vaults/{keyvault}"
                }, 
                "secretName": "password" 
             }
